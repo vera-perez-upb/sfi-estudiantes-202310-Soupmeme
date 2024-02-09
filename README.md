@@ -12,6 +12,8 @@ El link al repositorio compartido, donde se necesitaria realizar la mayoria de p
 
 ### Unidad 1: Software para sistemas embebidos
 
+#### Ejercicio 3-5 (LED Blink)
+
 Los primeros puntos de esta unidad hacen un recorrido breve sobre actividades pasadas que se han realizado haciendo uso de microcontroladores dentro del curso. Despues de esto, aprendemos a realizar el setup inicial del Integrated Development Environment (IDE) de Arduino, haciendo uso de una libreria para los Raspberry Pi Pico. Posteriormente se realiza un ejercicio introductorio para compilar, buildear y flashear el Pico con un codigo simple que prende un LED cada cierto intervalo de tiempo.
 
 
