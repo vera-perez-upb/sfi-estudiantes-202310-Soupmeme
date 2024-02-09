@@ -33,8 +33,26 @@ void loop() {
   }
 }
 ```
+Se modifica el codigo dado para aumentar el intervalo donde el LED parpadea, de cada 100ms a 500ms.
 
+```
+void setup() {
+  pinMode(LED_BUILTIN, OUTPUT); // El pin correspondiente al LED se pone en modo OUTPUT, que envie señales, no que las reciba.
+}
 
+void loop() {
+  static uint32_t previousTime = 0; // unsigned integer de 32 posiciones (unsigned significa que todos los bits toman valores positivos)
+  static bool ledState = true; // boolean set to true, turns on the LED
+
+  uint32_t currentTime = millis(); // creates a counter from the moment its invoked
+
+  if( (currentTime - previousTime) > 500){ // Un condicional que controla la diferencia entre el current y el previous time para comparar si llegan hasta un threshold definido
+    previousTime = currentTime; // Si se cumple el condicional, el previousTime se setea al currentTime, para no reiniciar desde el 0 absoluto el contador
+    ledState = !ledState; //Se setea el LED al estado contrario al actual. !apagado, otherwise prendido
+    digitalWrite(LED_BUILTIN, ledState); // digitalWrite escribe los parametros al pin declarado desde el setup. En este caso, manda el estado de la variable ledState al pin que controla el LED_BUILTIN
+  }
+}
+```
 
 
 ### Documented Bugs
