@@ -126,6 +126,11 @@ R/: Se deja saber mediante un print al monitor serial que el estado al que se ac
 - ¿Cuántas veces se ejecuta el código en el case Task1States::INIT?
 R/: Una vez, cuando se inicializa el programa por primera vez, ya que una vez iniciado, nunca se regresa a este estado, pues el switch case nunca lo permite.
 
+#### Ejercicio 7
+
+![image](https://github.com/vera-perez-upb/sfi-estudiantes-202310-Soupmeme/assets/124329074/4f08e4ac-cf1c-411c-afac-4c81aa5bae6c)
+
+#### Ejercicio 8 
 
 ### Documented Bugs
 
