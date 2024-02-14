@@ -56,7 +56,7 @@ void loop() {
 }
 ```
 
-#### Ejercicio 7 (State Machine)
+#### Ejercicio 6 (State Machine)
 
 ```
 void task1()
