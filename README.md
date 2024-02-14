@@ -132,6 +132,90 @@ R/: Una vez, cuando se inicializa el programa por primera vez, ya que una vez in
 
 #### Ejercicio 8 
 
+```
+void task1()
+{
+    enum class Task1States
+    {
+        INIT,
+        MENSAJE_1,
+        MENSAJE_2,
+        MENSAJE_3
+    };
+
+    static Task1States task1State = Task1States::INIT;
+    static uint32_t lastTime = 0;
+    static uint32_t interval = 1000;
+
+    switch (task1State)
+    {
+    case Task1States::INIT:
+    {
+        Serial1.begin(115200);
+        lastTime = millis();
+        task1State = Task1States::MENSAJE_1;
+        Serial1.println("Task1States::Ha Iniciado la cuenta");
+        break;
+    }
+    case Task1States::MENSAJE_1:
+    case Task1States::MENSAJE_2:
+    case Task1States::MENSAJE_3:
+    {
+        uint32_t currentTime = millis();
+        if ((currentTime - lastTime) >= interval)
+        {
+            lastTime = currentTime;
+            Serial1.print("Ha pasado el tiempo, SEGUNDOS PASADOS SINCE LAST: ");
+            Serial1.println(interval / 1000);
+            interval += 1000; 
+            if (interval > 3000)
+            {
+                interval = 1000;
+            }
+
+            switch (task1State)
+            {
+            case Task1States::MENSAJE_1:
+                task1State = Task1States::MENSAJE_2;
+                break;
+            case Task1States::MENSAJE_2:
+                task1State = Task1States::MENSAJE_3;
+                break;
+            case Task1States::MENSAJE_3:
+                task1State = Task1States::MENSAJE_1;
+                break;
+            }
+        }
+        break;
+    }
+    default:
+    {
+        Serial1.println("Error");
+    }
+    }
+}
+
+void setup()
+{
+    task1();
+}
+
+void loop()
+{
+    task1();
+}
+```
+
+- ¿Cuáles son los estados del programa?
+R/: Los estados son ***INIT***, ***MENSAJE_1***, ***MENSAJE _2***, ***MENSAJE_3***
+
+- ¿Cuáles son los eventos?
+R/: Los eventos son: *If statement que verifica el paso del tiempo comparandolo con un intervalo dado*, y  *Cada que pasan 3 segundos, pues se loopea el programa*
+
+- ¿Cuáles son las acciones?
+R/: Printear mediante el monitor serial el tiempo transcurrido en cada intervalo de tiempo; Cada 1, 2 y 3 segundos, antes de esperar para el paso al siguiente estado.
+
+
 ### Documented Bugs
 
 #### Archivo de Arduino IDE no ejecutando de manera correcta. Error lanzado: Syntax
