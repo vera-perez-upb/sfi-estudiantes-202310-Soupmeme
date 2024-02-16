@@ -215,6 +215,145 @@ R/: Los eventos son: *If statement que verifica el paso del tiempo comparandolo 
 - ¿Cuáles son las acciones?
 R/: Printear mediante el monitor serial el tiempo transcurrido en cada intervalo de tiempo; Cada 1, 2 y 3 segundos, antes de esperar para el paso al siguiente estado.
 
+#### Ejercicio 9
+
+```
+void task1()
+{
+    enum class Task1States
+    {
+        INIT,
+        WAIT_FOR_TIMEOUT
+    };
+
+    static Task1States task1State = Task1States::INIT;
+    static uint32_t lastTime;
+    static constexpr uint32_t INTERVALA = 1000;
+
+    switch(task1State)
+    {
+        case Task1States::INIT:
+        {
+            Serial1.begin(115200);
+            lastTime = millis();
+            task1State = Task1States::WAIT_FOR_TIMEOUT;
+            break;
+        }
+
+        case Task1States::WAIT_FOR_TIMEOUT:
+        {
+          uint32_t currentTime = millis();
+            if( (currentTime - lastTime) >= INTERVALA)
+             {
+                lastTime = currentTime;
+                Serial1.print("mensaje a 1Hz from A interval\n");
+                delay(4000);
+             }
+            break;
+        }
+
+        default:
+        {
+            break;
+        }
+    }
+}
+
+void task2()
+{
+    enum class Task2States
+    {
+        INIT,
+        WAIT_FOR_TIMEOUT
+    };
+
+    static Task2States task2State = Task2States::INIT;
+    static uint32_t lastTime;
+    static constexpr uint32_t INTERVALB = 2000;
+
+    switch(task2State)
+    {
+        case Task2States::INIT:
+        {
+            Serial1.begin(115200);
+            lastTime = millis();
+            task2State = Task2States::WAIT_FOR_TIMEOUT;
+            break;
+        }
+
+        case Task2States::WAIT_FOR_TIMEOUT:
+        {
+           uint32_t currentTime = millis();
+            if( (currentTime - lastTime) >= INTERVALB)
+            {
+                lastTime = currentTime;
+                Serial1.print("mensaje a 0.5Hz from B interval\n");
+            }
+            break;
+        }
+
+        default:
+        {
+            break;
+        }
+    }
+}
+
+void task3()
+{
+    enum class Task3States
+    {
+        INIT,
+        WAIT_FOR_TIMEOUT
+    };
+
+    static Task3States task3State = Task3States::INIT;
+    static uint32_t lastTime;
+    static constexpr uint32_t INTERVALC = 4000;
+
+    switch(task3State)
+    {
+        case Task3States::INIT:
+        {
+            Serial1.begin(115200);
+            lastTime = millis();
+            task3State = Task3States::WAIT_FOR_TIMEOUT;
+            break;
+        }
+
+        case Task3States::WAIT_FOR_TIMEOUT:
+        {
+           uint32_t currentTime = millis();
+            if( (currentTime - lastTime) >= INTERVALC)
+            {
+                lastTime = currentTime;
+                Serial1.print("mensaje a 0.25Hz from C interval\n");
+            }
+            break;
+        }
+
+        default:
+        {
+            break;
+        }
+    }
+}
+ 
+void setup() 
+{
+  task1();
+  task2(); 
+  task3();
+}
+
+void loop() 
+{
+  task1();
+  task2();
+  task3();
+}
+```
+
 
 ### Documented Bugs
 
