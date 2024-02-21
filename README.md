@@ -368,6 +368,7 @@ void loop()
 **R/=** Las letras o el mensaje que se espera mostrar en pantalla o recibir mediante transmision por el monitor serial se codifica de alguna manera para facilitar su transmision o ahorrar cantidad de datos que se utilizan en dicha transmision. El hecho de que no solo veamos las letras como tal si no tambien su manera de ser codificadas se usa para hechos interpretativos.
   
 - ¿Qué es el 0a al final del mensaje y para qué crees que sirva?
+  
 **R/=** 0a es hexedecimal para un comando de "line feed", cambiando de "reglon" donde se hace display de las letras. En el codigo se evidencia con el caracter de escape '\n'.
 
 
