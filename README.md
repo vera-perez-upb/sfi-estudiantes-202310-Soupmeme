@@ -353,6 +353,18 @@ void loop()
   task3();
 }
 ```
+#### Ejercicio 11
+
+![image](https://github.com/vera-perez-upb/sfi-estudiantes-202310-Soupmeme/assets/124329074/aebceb7d-1e5f-45ad-8f77-bbc28852c034)
+
+- ¿Por qué enviaste la letra con el botón send? ¿Qué evento verifica si ha llegado algo por el puerto serial?
+**R/=** Dentro del codigo, existe un case switch ***case Task1States::WAIT_DATA:*** que verifica si el puerto serial esta desponible (existe comunicacion send/receive) y si lo esta, hace un read de los datos que llegan y devuelve al sender el mensaje "Hola computador"
+- Analiza los números que se ven debajo de las letras. Nota que luego de la r, abajo, hay un número. ¿Qué es ese número?
+**R/=** Debido a la disposicion de configuracion del Scriptcommunicator, nosotros pusimos que el output de la consola sea 'Mixto', es decir, que se muestren valores codificados en Hexadecimal y en UTF-8 Debajo de la ultima 'r' esta el valor '72' que corresponde al codigo hexadecimal de la letra R en miniscula.
+- ¿Qué relación encuentras entre las letras y los números?
+**R/=** Las letras o el mensaje que se espera mostrar en pantalla o recibir mediante transmision por el monitor serial se codifica de alguna manera para facilitar su transmision o ahorrar cantidad de datos que se utilizan en dicha transmision. El hecho de que no solo veamos las letras como tal si no tambien su manera de ser codificadas se usa para hechos interpretativos.
+-¿Qué es el 0a al final del mensaje y para qué crees que sirva?
+**R/=** 0a es hexedecimal para un comando de "line feed", cambiando de "reglon" donde se hace display de las letras. En el codigo se evidencia con el caracter de escape '\n'.
 
 
 ### Documented Bugs
