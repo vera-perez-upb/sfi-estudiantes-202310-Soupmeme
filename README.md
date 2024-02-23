@@ -371,6 +371,30 @@ void loop()
   
 **R/=** 0a es hexedecimal para un comando de "line feed", cambiando de "reglon" donde se hace display de las letras. En el codigo se evidencia con el caracter de escape '\n'.
 
+#### Ejercicio 12
+
+- ¿Cómo se declara un puntero?
+**R/=** En la sintaxis que utilizamos en C++, un puntero se declara como otro tipo de variable de unsigned integer, es decir 'uint32_t' que es un "unsigned integer" es decir, un entero de base 32bit que no admite valores negativos. Despues, se establece la el nombre de la variable, es decir, '*pvar' donde "*" declara la variable como un *pointer* y "pvar" por concesion de nombramiento, establece el nombre de esa variable como "pointer of var" para simpleza de lectura, despues se hace un '= &var' donde el ampersand refiere a la direccion de memoria donde esta almacenado 'var'.
+
+
+- ¿Cómo se define un puntero? (cómo se inicializa)
+**R/=** La defincion de puntero referiria al argumento, o mas bien, a la variable a quien va a apuntar, que en este caso, nuestro puntero 'pvar' apuntaria, a la variable 'var' refiriendose a su direccion de memoria en vez de definir o llamar la variable como tal.
+
+
+- ¿Cómo se obtiene la dirección de una variable?
+**R/=** Mediante el uso del simbolo Ampersand '&'.
+
+
+- ¿Cómo se puede leer el contenido de una variable por medio de un puntero?
+**R/=** Podemos leer el contenido de una variable si llamamos a su puntero. En el caso de nuestro ejemplo, si llamamos a nuestro puntero 'pvar' este daria como output el contenido en memoria de nuestra variable 'var'. En resumidas cuentas, en vez de llamar directamente a nuestra variable y asi obtener su valor, llamamos a su puntero para que nos diga que datos se encuentran almacenados en la direccion de memoria a la que esta apuntando.
+
+
+- ¿Cómo se puede escribir el contenido de una variable por medio de un puntero?
+**R/=** Para escribir el contenido de una variable, podemos hacerlo mediante su puntero en vez de hacerlo directamente sobre nuestra variable. Si queremos hacer que nuestra variable 'var' tome el valor de 10, por ejemplo, podemos hacer: ***pvar = 10;*** donde pvar = 10 significa en palabras simples, que almacene 10 en pvar, pero pvar es un puntero que apunta a la direccion de memoria de 'var', entonces al hacer pvar = 10, estamos haciendo por proxy que 'var' sea igual a 10, ya que el puntero no almacena valores, si no que solo almacena referencias a otras variables.
+
+  
+
+
 
 ### Documented Bugs
 
