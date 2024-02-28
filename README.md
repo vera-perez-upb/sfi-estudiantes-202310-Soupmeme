@@ -392,7 +392,39 @@ void loop()
 - ¿Cómo se puede escribir el contenido de una variable por medio de un puntero?
 **R/=** Para escribir el contenido de una variable, podemos hacerlo mediante su puntero en vez de hacerlo directamente sobre nuestra variable. Si queremos hacer que nuestra variable 'var' tome el valor de 10, por ejemplo, podemos hacer: ***pvar = 10;*** donde pvar = 10 significa en palabras simples, que almacene 10 en pvar, pero pvar es un puntero que apunta a la direccion de memoria de 'var', entonces al hacer pvar = 10, estamos haciendo por proxy que 'var' sea igual a 10, ya que el puntero no almacena valores, si no que solo almacena referencias a otras variables.
 
-  
+
+#### Ejercicio 13
+
+El programa crea una funcion.
+
+```
+static void changeVar(uint32_t *pdata)
+{
+    *pdata = 10;
+}
+```
+La cual recibe como argumento un puntero, y a dicho punto le asigna el valor de 10.
+
+Despues, durante los eventos del estado **WAIT_DATA** realiza lo siguiente:
+
+```
+uint32_t var = 0;
+            uint32_t *pvar = &var;
+            printVar(*pvar);
+            changeVar(pvar);
+            printVar(var);
+```
+Donde crea la variable var y la inicializa en 0, crea el puntero pvar y hace que referencie a la direccion de memoria de la variable var, printea el valor del puntero pvar (por consiguiente, el valor de var) y llama el metodo changeVar donde como argumento ingresa el puntero pvar. Antes de llamar al metodo, pvar es igual a 0 ya que var es igual a 0. Cuando se llama al metodo, se cambia el valor de pvar a 10 y por ende el valor de var a 10, ya que el metodo recibe un puntero como argumento y a ese puntero le asigna el valor de 10. Despues printea el nuevo valor de var.
+
+#### Ejercicio 16
+Serial.available() actua como una especie de trigger, donde "lee" si hay datos recibidos en el buffer serial. Solo "lee" el estado del buffer, es decir, solo te dice si existen datos recibidos o no, mas no los almacena.
+Serial.read() es el metodo que permite leer y almacenar los datos que se recibieron en el buffer serial, los permite parsear y almacenar en una varible. Primero se deben detectar los datos (haciendo un Serial.available y que este sea TRUE, es decir, que hayan datos) y despues se parsean mediante Serial.read() para almacenarlos.
+Si no existen datos en el buffer serial, devuelve un -1:
+
+![image](https://github.com/vera-perez-upb/sfi-estudiantes-202310-Soupmeme/assets/124329074/bf2be8c6-eaeb-46d5-8d67-66bc3b1641dc)
+
+El Serial.read() lee byte por byte.
+Si no se realiza un Serial.read() apesar de haber recibido datos, entonces los datos quedaran almacenados en el buffer serial hasta que sufra un "overflow" donde empezara a reemplazar datos antiguos con datos nuevos constantemente hasta que finalize el rpgrama o se haga un Serial.read()
 
 
 
