@@ -426,6 +426,13 @@ Si no existen datos en el buffer serial, devuelve un -1:
 El Serial.read() lee byte por byte.
 Si no se realiza un Serial.read() apesar de haber recibido datos, entonces los datos quedaran almacenados en el buffer serial hasta que sufra un "overflow" donde empezara a reemplazar datos antiguos con datos nuevos constantemente hasta que finalize el rpgrama o se haga un Serial.read()
 
+## Entrega final unidad 1
+
+El siguiente apartado corresponde a la entrega del ejercicio final de la unidad 1 con sus elementos requeridos:
+
+Video de documentacion: <https://drive.google.com/file/d/11NOBZgPiRUmASY-IAY7UUUiAnkivs7zF/view?usp=sharing>
+Link a repositorio donde esta el .ino del ejercicio: <https://github.com/MateoJimenezFamaArt/PROYECTOSPICO/tree/master/BombaTermonuclearAsesina>
+Link a diagrama de maquina de estados: <https://app.creately.com/d/qCcTeYTp3eb/view>
 
 
 ### Documented Bugs
