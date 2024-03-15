@@ -10,7 +10,7 @@ El link al repositorio compartido, donde se necesitaria realizar la mayoria de p
 
 [este repositorio]: https://github.com/MateoJimenezFamaArt/RASPBERRY_PICO/tree/master
 
-### Unidad 1: Software para sistemas embebidos
+## Unidad 1: Software para sistemas embebidos
 
 #### Ejercicio 3-5 (LED Blink)
 
@@ -426,7 +426,7 @@ Si no existen datos en el buffer serial, devuelve un -1:
 El Serial.read() lee byte por byte.
 Si no se realiza un Serial.read() apesar de haber recibido datos, entonces los datos quedaran almacenados en el buffer serial hasta que sufra un "overflow" donde empezara a reemplazar datos antiguos con datos nuevos constantemente hasta que finalize el rpgrama o se haga un Serial.read()
 
-## Entrega final unidad 1
+### Entrega final unidad 1
 
 El siguiente apartado corresponde a la entrega del ejercicio final de la unidad 1 con sus elementos requeridos:
 
@@ -435,6 +435,28 @@ Video de documentacion: <https://drive.google.com/file/d/11NOBZgPiRUmASY-IAY7UUU
 Link a repositorio donde esta el .ino del ejercicio: <https://github.com/MateoJimenezFamaArt/PROYECTOSPICO/tree/master/BombaTermonuclearAsesina>
 
 Link a diagrama de maquina de estados: <https://app.creately.com/d/qCcTeYTp3eb/view>
+
+## Unidad 2: Software para sistemas embebidos
+
+#### Ejercicio 1
+
+```
+void setup() {
+  Serial.begin(115200);
+}
+
+void loop() {
+if(Serial.available()){
+if(Serial.read() == '1'){
+      Serial.print("Hello from Raspberry Pi Pico");
+    }
+  }
+}
+```
+Este script de arduino inicializa el monitor serial a un rate de 115200 y espera recibir un dato desde el pc, el cual debe ser el numero 1, si recibe dicho dato printea el mensaje "Hello from Raspberry Pi Pico", de lo contrario no hace nada.
+
+
+
 
 
 ### Documented Bugs
