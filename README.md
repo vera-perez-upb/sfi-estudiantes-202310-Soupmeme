@@ -459,6 +459,7 @@ Este script de arduino inicializa el monitor serial a un rate de 115200 y espera
 
 
 
+
 ### Documented Bugs
 
 #### Archivo de Arduino IDE no ejecutando de manera correcta. Error lanzado: Syntax
