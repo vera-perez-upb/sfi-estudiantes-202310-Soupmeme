@@ -455,7 +455,56 @@ if(Serial.read() == '1'){
 ```
 Este script de arduino inicializa el monitor serial a un rate de 115200 y espera recibir un dato desde el pc, el cual debe ser el numero 1, si recibe dicho dato printea el mensaje "Hello from Raspberry Pi Pico", de lo contrario no hace nada.
 
+#### Ejercicio 2
 
+```
+using UnityEngine;
+using System.IO.Ports;
+using TMPro;
+
+public class Serial : MonoBehaviour
+{
+	private SerialPort _serialPort =new SerialPort();
+	private byte[] buffer =new byte[32];
+
+	public TextMeshProUGUI myText;
+
+	private static int counter = 0;
+
+	void Start()
+    {
+        _serialPort.PortName = "COM3";
+        _serialPort.BaudRate = 115200;
+        _serialPort.DtrEnable =true;
+        _serialPort.Open();
+        Debug.Log("Open Serial Port");
+    }
+
+void Update()
+    {
+        myText.text = counter.ToString();
+        counter++;
+
+				if (Input.GetKeyDown(KeyCode.A))
+        {
+            byte[] data = {0x31};// or byte[] data = {'1'};            
+						_serialPort.Write(data,0,1);
+            int numData = _serialPort.Read(buffer, 0, 20);
+            Debug.Log(System.Text.Encoding.ASCII.GetString(buffer));
+            Debug.Log("Bytes received: " + numData.ToString());
+        }
+    }
+}
+```
+Este script de C# para Unity, se utiliza para la comunicacion entre Unity y un Arduino, mediante un puerto serial. Utilizamos las librerias necesarias para invocar los metodos y funciones que necesitamos. Declaramos una variable "_serialPort" de la clase SerialPort para realizar las configuraciones necesarias del puerto serial mas adelante, tambien, declaramos un vector de datos para guardar los bytes que llegen por el puerto serial.
+
+En el metodo Start invocamos el puerto y el baudrate que vamos utilizar para la comunicacion, abrimos el puerto y realizamos un print en la consola para significar la inicializacion del mismo.
+
+En el metodo Update declaramos un contador sencillo que utiliza el gameobject de TxtMeshPro que tenemos dentro del proyecto de Unity. Despues, realizamos un if statement donde la prueba logica es verificar si la tecla 'A' esta siendo presionada, de ser asi, envia el byte 0x31 (que corresponde al caracter 1) mediante el puerto serial, despues, usando el metodo de Write de la instancia de la clase de serialPort que declaramos, ponemos los argumentos necesarios: utilizando el vector (array) 'data', en la posicion de indice 0 (primera posicion), escribimos un byte de datos que recibimos.
+
+Despues de escribir el dato que enviamos y posteriormente recibimos, declaramos una nueva variable de enteros llamada "numData" cuya declaracion es igual al metodo Read de la instancia de serialPort donde utilizamos el vector 'buffer', en su posicion de indice 0, para leer hasta 20 bytes desde el puerto serial.
+
+Realiza un print a la consola de los datos recibidos mediante codificacion de ASCII, y despues printea la cantidad de bytes recibidos.
 
 
 
