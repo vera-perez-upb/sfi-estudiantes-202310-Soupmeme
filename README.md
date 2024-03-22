@@ -436,7 +436,7 @@ Link a repositorio donde esta el .ino del ejercicio: <https://github.com/MateoJi
 
 Link a diagrama de maquina de estados: <https://app.creately.com/d/qCcTeYTp3eb/view>
 
-## Unidad 2: Software para sistemas embebidos
+## Unidad 2: Protocolos ASCII
 
 #### Ejercicio 1
 
@@ -506,6 +506,172 @@ Despues de escribir el dato que enviamos y posteriormente recibimos, declaramos 
 
 Realiza un print a la consola de los datos recibidos mediante codificacion de ASCII, y despues printea la cantidad de bytes recibidos.
 
+#### Ejercicio 3
+
+```
+void task()
+{
+		enum class TaskStates
+		{
+				INIT,
+				WAIT_INIT,
+				SEND_EVENT
+		};
+		static TaskStates taskState = TaskStates::INIT;
+		static uint32_t previous = 0;
+		static u_int32_t counter = 0;
+
+		switch (taskState)
+		{
+				case TaskStates::INIT:
+				{
+						Serial.begin(115200);
+						taskState = TaskStates::WAIT_INIT;
+						break;
+				}
+				case TaskStates::WAIT_INIT:
+				{
+						if (Serial.available() > 0)
+						{
+								if (Serial.read() == '1')
+								{
+										previous = 0; // Force to send the first value immediately
+										taskState = TaskStates::SEND_EVENT;
+								}
+						}
+						break;
+				}
+				case TaskStates::SEND_EVENT:
+				{
+						uint32_t current = millis();
+						if ((current - previous) > 2000)
+						{
+								previous = current;
+								Serial.print(counter);
+								counter++;
+						}
+						if (Serial.available() > 0)
+						{
+							  if (Serial.read() == '2')
+							  {
+								    taskState = TaskStates::WAIT_INIT;
+							  }
+						}
+						break;
+				}
+				default:
+				{
+						break;
+				}
+		}
+}
+
+void setup()
+{
+		task();
+}
+
+void loop()
+{
+		task();
+}
+```
+En este script de Arduino, estamos creando un enumerador para declarar los estados que vamos a utilizar para una maquina de estados finita, los estados siendo INIT, WAIT_INIT y SEND_EVENT. Despues, declaramos una variables globales para controlar la transicion de estados, un contador, y una variable para conocer el tiempo transcurrido desde la ultima instruccion enviada/recibida.
+
+Realizamos el switch case para controlar los cambios entre estados, donde en el estado INIT, abrimos el puerto serial a un baudrate definido y pasamos al estado WAIT_INIT
+
+En este estado, verificamos si el puerto serial esta abierto, y de ser asi, esperamos a recibir el byte correspondiente al caracter "1", y cuando lo recibimos, pasamos al evento SEND_EVENT.
+
+En SEND_EVENT, declaramos una variable local para hacer tracking del tiempo transcurrido, hacemos la variable "previous" igual al tiempo transcurrido hasta el momento, imprimimos el contador y lo aumentamos. Despues, verificamos si la conexion sigue abierta, y si es asi, esperamos a recibir el byte correspondiente al caracter "2", y cuando lo recibimos, pasamos de vuelta al estado WAIT_ INIT.
+
+En resumen, este codigo inicializa la comunicacion serial, espera a recibir "1" para imprimir y aumentar un contador, y cuando reciba el "2" para de contar y se devulve a esperar a recibir otro "1".
+
+```
+using UnityEngine;
+using System.IO.Ports;
+using TMPro;
+
+enum TaskState
+{
+    INIT,
+    WAIT_START,
+    WAIT_EVENTS
+}
+
+public class Serial : MonoBehaviour
+{
+		private static TaskState taskState = TaskState.INIT;
+		private SerialPort _serialPort;
+		private byte[] buffer;
+		public TextMeshProUGUI myText;
+		private int counter = 0;
+
+		void Start()
+    {
+        _serialPort =new SerialPort();
+        _serialPort.PortName = "COM3";
+        _serialPort.BaudRate = 115200;
+        _serialPort.DtrEnable =true;
+        _serialPort.Open();
+        Debug.Log("Open Serial Port");
+        buffer =new byte[128];
+    }
+
+void Update()
+    {
+        myText.text = counter.ToString();
+        counter++;
+
+				switch (taskState)
+        {
+						case TaskState.INIT:
+		            taskState = TaskState.WAIT_START;
+                Debug.Log("WAIT START");
+								break;
+						case TaskState.WAIT_START:
+								if (Input.GetKeyDown(KeyCode.A))
+                {
+                    byte[] data = {0x31};// start
+                    _serialPort.Write(data,0,1);
+                    Debug.Log("WAIT EVENTS");
+                    taskState = TaskState.WAIT_EVENTS;
+                }
+								break;
+						case TaskState.WAIT_EVENTS:
+								if (Input.GetKeyDown(KeyCode.B))
+                {
+                    byte[] data = {0x32};// stop
+                    _serialPort.Write(data,0,1);
+                    Debug.Log("WAIT START");
+                    taskState = TaskState.WAIT_START;
+                }
+								if (_serialPort.BytesToRead > 0)
+                {
+                    int numData = _serialPort.Read(buffer, 0, 128);
+                    Debug.Log(System.Text.Encoding.ASCII.GetString(buffer));
+                }
+								break;
+						default:
+                Debug.Log("State Error");
+								break;
+        }
+    }
+}
+```
+
+En el lado de Unity tenemos las librerias que nos permiten usar funciones especificas y despues declaramos, como en el Arduino, un enumerador para los estados de nuestra maquina de estados finita, con los estados INIT, WAIT_START y WAIT_EVENTS.
+
+Declaramos unas variables globales, las cuales controlan los estados  sus transiciones, una para utilizar las funciones necesarias del puerto serial, un vector llamado buffer, la declaracion de TMP y un contador que inicializamos en 0.
+
+En el metodo de Start inicializamos una nueva comunicacion con el puerto serial, declaramos que puerto de conexion utilizara, el baudrate, lo "prendemos" y lo abrimos para la comunicacion, como tambien abrir 128 espacios en el vector "buffer"
+
+En el metodo de Update, actualizamos cada frame el texto que tenemos en el GameObject dentro de Unity con TMP, y lo aumentamos por 1 cada ciclo. Despues, hacemos un switch case para controlar los cambios entre estados de nuestra maquina.
+
+El estado INIT pasa inmediatamente al estado WAIT_START. Este estado espera que se presione la tecla "A", y al momento de hacerlo, envia, mediante el puerto serial con la funcion "_serialPort.Write" el byte correspondiente al caracter "1", printea que se pasara al estado WAIT_EVENTS y pasa de estado.
+
+En este estado, espera que se presione la tecla "B", de ser asi, envia por el puerto serial dicho caracter, printea el paso al estado anterior, y pasa a ese estado.
+
+Tenemos tambien una funcion que lee el buffer de datos para detectar los datos que se encuentran en el, si hay datos, codifica los datos (que estan en ASCII) a una string y los printea.
 
 
 
