@@ -710,6 +710,28 @@ Se trata basicamente de lo que se discutio en el ejercicio 1, lo cual es orden d
 
 Cabe destacar que saber que endian se va a utilizar al momento de establecer el protocolo de comunicacion es de suma importancia, ya que determinar que endian se transmite determina que orden la data se transmite y en que orden la data se lee. Una diferencia entre los dispositivos en comunicacion con respecto al endian que envian y el endian que reciben significaria data que no se esta enviando/recibiendo como se debe hacer.
 
+#### Ejercicio 4
+
+Durente este ejercicio se plantea la transmision de numeros de punto flotante, es decir, numeros decimales.
+```
+void setup() {
+    Serial.begin(115200);
+}
+
+void loop() {
+    // 45 60 55 d5
+    // https://www.h-schmidt.net/FloatConverter/IEEE754.html
+    static float num = 3589.3645;
+
+    if(Serial.available()){
+        if(Serial.read() == 's'){
+            Serial.write ( (uint8_t *) &num,4);
+        }
+    }
+}
+```
+Este primer codigo ejemplifica la manera en como se transmite un flotante de manera directa haciendo uso de la funcion serial.write. Transmite 4 bytes los cuales son la representacion de los flotantes
+
 
 
 ## Documented Bugs
