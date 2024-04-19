@@ -702,6 +702,14 @@ Vemos metodos como:
 - Serial.readBytes(buffer, length) el cual permite leer una seccion determina del buffer, indicando la "longitud" de bytes a leer
 - Serial.write() que es mediante el cual enviamos datos a traves del puerto serial en una comunicacion bidireccional con otro dispositivo o con otra aplicacion.
 
+#### Ejercicio 3
+
+Durente este ejercicio se menciona el concepto de ***endian***
+
+Se trata basicamente de lo que se discutio en el ejercicio 1, lo cual es orden de transmision de la data. Cuando hablamos de un ***BIG ENDIAN*** estamos hablando de que se transmite primero en la cadena de datos el byte de mayor peso, mientras que si hablamos de un ***LITTLE ENDIAN*** se transmite primero en la cadena de datos el byte de menos peso.
+
+Cabe destacar que saber que endian se va a utilizar al momento de establecer el protocolo de comunicacion es de suma importancia, ya que determinar que endian se transmite determina que orden la data se transmite y en que orden la data se lee. Una diferencia entre los dispositivos en comunicacion con respecto al endian que envian y el endian que reciben significaria data que no se esta enviando/recibiendo como se debe hacer.
+
 
 
 ## Documented Bugs
