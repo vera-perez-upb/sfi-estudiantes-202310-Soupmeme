@@ -673,9 +673,27 @@ En este estado, espera que se presione la tecla "B", de ser asi, envia por el pu
 
 Tenemos tambien una funcion que lee el buffer de datos para detectar los datos que se encuentran en el, si hay datos, codifica los datos (que estan en ASCII) a una string y los printea.
 
+## Unidad 3 Protocolos Binarios
+
+#### Ejercicio 1
+
+En este ejercicio se propone un caso de estudio, especificamente se habla de un lector de RFID y la manera en como se comunica este lector con otros dispositivos llamados hosts.
+
+Se establece primero lo que es la **INTERFAZ DE COMUNICACION SERIAL** donde el lector se comunica con un host (ya sea un microcontrolador o un microprocesador) utilizando protocolos de interfaz como el RS232 o el RS485 que son estandares de comunicacion.
+
+Despues, se establecen los **PARAMETROS DE COMUNICACION** donde se decide el baudrate a utilizar durante el proceso (siendo en este caso 57600 bps) y el formato de la data a enviar/recibir, siendo esta conformada por:
+
+- 1 bit de inicio
+- 8 bits de data
+- 1 bit de finalizacion
+
+Estos bits componen la estructura del mensaje y tiene que ser utilizado por ambos dispositivos para determinar en que momento inicia un segmento de comunicacion y en que momento termina dicho segmento.
+
+Por ultimo, se habla del **ORDEN DE LOS BITS**, es decir, si durante la transmision de los datos, se transmitira el bit mas significativo primero o el bit menos significativo primero. Esto es importante ya que esto determina el orden con que se manipula y se lee los datos recibidos en un protocol binario. Ambos dispositivos deben "acordar" si envian/leen el menos significativos primero o de lo contrario el mas significativo primero, de lo contrario la data que se envia de manera bidireccional seria distinta para ambos dispositivos.
 
 
-### Documented Bugs
+
+## Documented Bugs
 
 #### Archivo de Arduino IDE no ejecutando de manera correcta. Error lanzado: Syntax
 
