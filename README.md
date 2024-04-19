@@ -691,6 +691,17 @@ Estos bits componen la estructura del mensaje y tiene que ser utilizado por ambo
 
 Por ultimo, se habla del **ORDEN DE LOS BITS**, es decir, si durante la transmision de los datos, se transmitira el bit mas significativo primero o el bit menos significativo primero. Esto es importante ya que esto determina el orden con que se manipula y se lee los datos recibidos en un protocol binario. Ambos dispositivos deben "acordar" si envian/leen el menos significativos primero o de lo contrario el mas significativo primero, de lo contrario la data que se envia de manera bidireccional seria distinta para ambos dispositivos.
 
+#### Ejercicio 2
+
+Durante este ejercicio se plantea un recodatorio de los metodos que se utilizan en el IDE de Arduino para trabajar con las comunicaciones seriales que vienen integradas en dichos dispositivos. 
+
+Vemos metodos como:
+
+- Serial.available() determina si el buffer del puerto serial tiene algun tipo de dato dentro de el. Es decir, solo "lee" si hay datos, mas no sabe que datos hay.
+- Serial.read() lee los datos como tal que estan dentro del buffer serial, despues de haberse determinado que existen datos en el.
+- Serial.readBytes(buffer, length) el cual permite leer una seccion determina del buffer, indicando la "longitud" de bytes a leer
+- Serial.write() que es mediante el cual enviamos datos a traves del puerto serial en una comunicacion bidireccional con otro dispositivo o con otra aplicacion.
+
 
 
 ## Documented Bugs
