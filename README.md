@@ -752,7 +752,41 @@ if(Serial.read() == 's'){
 
 La diferencia entre ambos codigos es la siguiente: En el primer snippet, se castea la direccion de memoria de un uint8_t sobre un puntero y se envian 4 bytes de manera directa, mientras que en el segundo primero declaramos e inicializamos un arreglo de 4 indices. Al momento de mandar el numero mediante la comunicacion serial, casteamos 4 bytes, provenientes de la direccion de memoria de nuestra variable num, sobre un puntero de tipo uint8_t y los copiamos a nuestro array, despues, enviamos desde el array las primeras 4 posiciones de su indice.
 
+#### Ejercicio 5
 
+Para este ejercicio, se requiere utilizar el concepto de endianness para enviar 2 numeros de punto flotante utilizando ambos endian (big and little). Para esto, se puede reutilizar el codigo del ejercicio anterior para enviar un numero en big endian y simplemente añadirle la capacidad de enviar un numero distinto utilizando little endian, de la siguiente manera:
+```
+void setup() {
+    Serial.begin(115200);
+}
+
+void loop() {
+    // Original floating-point number (big endian)
+    static float num1 = 3589.3645;
+    // New floating-point number (little endian)
+    static float num2 = 1234.5678;
+    static uint8_t arr[4] = {0};
+
+    if (Serial.available()) {
+        char trigger = Serial.read();
+        if (trigger == 's') {
+            // Send num1 in big-endian format
+            memcpy(arr, (uint8_t *)&num1, 4);
+            for (int8_t i = 3; i >= 0; i--) {
+                Serial.write(arr[i]);
+            }
+        } else if (trigger == 'r') {
+            // Send num2 in little-endian format
+            memcpy(arr, (uint8_t *)&num2, 4);
+            for (int8_t i = 0; i < 4; i++) {
+                Serial.write(arr[i]);
+            }
+        }
+    }
+}
+
+```
+Cabe destacar que se puede utilizar el mismo array para el proposito del ejercicio. Si enviamos un numero despues del otro, los contenidos del array se sobrescriben ya que mediante memcpy estamos transfiriendo el mismo numero de bytes, por lo que no habria data residual.
 
 ## Documented Bugs
 
