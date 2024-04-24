@@ -730,7 +730,27 @@ void loop() {
     }
 }
 ```
-Este primer codigo ejemplifica la manera en como se transmite un flotante de manera directa haciendo uso de la funcion serial.write. Transmite 4 bytes los cuales son la representacion de los flotantes
+Este primer codigo ejemplifica la manera en como se transmite un flotante de manera directa haciendo uso de la funcion serial.write. Transmite 4 bytes los cuales son la representacion de los flotantes. De la misma manera que lo hace el siguiente:
+```
+void setup() {
+    Serial.begin(115200);
+}
+
+void loop() {
+// 45 60 55 d5// https://www.h-schmidt.net/FloatConverter/IEEE754.htmlstatic float num = 3589.3645;
+static uint8_t arr[4] = {0};
+
+if(Serial.available()){
+if(Serial.read() == 's'){
+            memcpy(arr,(uint8_t *)&num,4);
+            Serial.write(arr,4);
+        }
+    }
+}
+
+```
+
+La diferencia entre ambos codigos es la siguiente: En el primer snippet, se castea la direccion de memoria de un uint8_t sobre un puntero y se envian 4 bytes de manera directa, mientras que en el segundo primero declaramos e inicializamos un arreglo de 4 indices. Al momento de mandar el numero mediante la comunicacion serial, casteamos 4 bytes, provenientes de la direccion de memoria de nuestra variable num, sobre un puntero de tipo uint8_t y los copiamos a nuestro array, despues, enviamos desde el array las primeras 4 posiciones de su indice.
 
 
 
