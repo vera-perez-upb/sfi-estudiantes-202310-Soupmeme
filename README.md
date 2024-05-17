@@ -832,6 +832,18 @@ Creamos un switch case en el printeamos un mensaje dependiendo del caracter que 
 
 De acuerdo a las caracteristicas que observamos en el codigo, podemos afirmar que estamos trabajando mediante comunicacion serial haciendo uso de un protocolo ASCII, ya que no declaramos ningun array ni hacemos transformacion de strings en bytes individuales.
 
+Despues de realizar una serie de pruebas, ya que desde Unity no estabamos detectando ningun mensaje entrante, pudimos presenciar el funcionamiento del codigo:
+
+![image](https://github.com/vera-perez-upb/sfi-estudiantes-202310-Soupmeme/assets/124329074/f286a3f7-d931-4eaf-a905-54e812e08e41)
+
+Siguiendo en el desarrollo del ejercicio, procedemos a hacer algunas pruebas relacionadas al funcionamiento del codigo presentando.
+
+Primero, al analizar el script principal con el que estamos trabajando, nos damos cuenta de que estamos trabajando la comunicacion serial de una manera muy inteligente, ya que en vez de tener toda nuestra funcionalidad en un solo script que le ponemos a un GameObject, en esta ocasion el script que le asignamos tiene distintos puntos de fallo, diseminados en muchos otros scripts que controlan aspectos distintos de las funcionalidades de la comunicacion.
+Una de las mas importantes es la manera segmentada en la cual tratamos el puerto serial, ya que utilizamos la programacion orientada a objetos para referenciar nuestro puerto, nuestro baudrate, nuestro puerto COM entre otros. Si borramos las referencia en el apartado publico de nuestro script, el script deja de funcionar, ya que esta ligado a un GameObject en especifico.
+
+Tambien nos damos cuenta de que los mensajes que queremos enviar no solo estan puestos en el metodo loop en nuestro raspberry, si no que tambien estan puestos en el metodo update dentro de Unity. Esto significa en terminos practicos que la lectura de inputs, el envio de outputs y la lectura de los mismos se realizar cada que vez que se hace un accion de 'polling', es decir, cada vez que Unity invoca el metodo Update(). Asi, nos aseguramos de estar leyendo constantemente los caracteres que debemos recibir y los mensajes que debemos enviar.
+
+
 
 ## Documented Bugs
 
