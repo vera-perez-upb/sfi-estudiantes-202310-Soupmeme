@@ -788,6 +788,51 @@ void loop() {
 ```
 Cabe destacar que se puede utilizar el mismo array para el proposito del ejercicio. Si enviamos un numero despues del otro, los contenidos del array se sobrescriben ya que mediante memcpy estamos transfiriendo el mismo numero de bytes, por lo que no habria data residual.
 
+## Unidad 3 Protocolos Binarios
+
+#### Ejercicio 3
+
+```
+uint32_t last_time = 0;
+
+void setup()
+{
+    Serial.begin(9600);
+}
+
+void loop()
+{
+	// Print a heartbeat
+	if ( (millis() - last_time) >  2000)
+    {
+        Serial.print("Arduino is alive!!");
+        Serial.print('\n');
+        last_time = millis();
+    }
+
+// Send some message when I receive an 'A' or a 'Z'.
+switch (Serial.read())
+    {
+			case 'A':
+            Serial.print("That's the first letter of the abecedarium.");
+            Serial.print('\n');
+						break;
+			case 'Z':
+            Serial.print("That's the last letter of the abecedarium.");
+            Serial.print('\n');
+						break;
+    }
+}
+```
+Este codigo para el Raspberry Pi Pico es similar a otros que hemos realizado en el pasado para establecer comunicacion entre el microcontrollador y otro dispositivo mediante el puerto serial, aunque cuenta con algunas diferencias:
+
+Establecemos el baudrate en 9600 bits por segundo.
+En nuestra funcion loop creamos un 'latido' para saber que la comunicacion establecida todavia se mantiene. Este latido se printea en cada ciclo del update mediante un Serial.print para dejarle saber al otro dispositivo que todavia tenemos una conexicon establecida.
+Creamos un switch case en el printeamos un mensaje dependiendo del caracter que recibamos, sea la letra A o la letra Z y lo combinamos con un caracter de escape.
+
+De acuerdo a las caracteristicas que observamos en el codigo, podemos afirmar que estamos trabajando mediante comunicacion serial haciendo uso de un protocolo ASCII, ya que no declaramos ningun array ni hacemos transformacion de strings en bytes individuales.
+
+
 ## Documented Bugs
 
 #### Archivo de Arduino IDE no ejecutando de manera correcta. Error lanzado: Syntax
